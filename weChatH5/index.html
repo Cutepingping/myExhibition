@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui,shrink-to-fit=no"/>
+    <meta http-equiv="pragma" content="cache">
+    <meta name="mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <meta name="keywords" content="">
+    <meta name="description" content=""/>
+    <title>上海会展</title>
+    <link rel="stylesheet" href="css/liui.css"/>
+</head>
+<body>
+<div class="liui-page">
+    <div class="page-wrap">
+        <!-- 会展地图 -->
+        <section class="page-item liui-transition  Li_page_item active" id="exhibitionMap">
+            
+            <!--顶部进度条开始-->
+            <div class="top-process">
+                <div id="topprocessbar" style="width:0%;"></div>
+            </div>
+            <!--顶部进度条结束-->
+
+            <!--主进度条-->
+            <div class="processcontainer">
+                <div id="processbar" style="width:0%;"></div>
+            </div>
+            <!--主进度条-->
+
+            <div class="webgl_content" id="webgl_container">
+                <!-- 头部 -->
+                <div class="webgl-cont-h">
+                    <div class="two_d_btn"><a href="javascript:;">2D</a></div>
+                    <div class="infrastructure" id="webgl_infrastructure">
+                        <div class="iconfont icon-sheshi"></div>
+                        <span class="i18n" data-i18n="infrastructure">设施</span>
+                    </div>
+                </div>
+                <!-- 左下角 -->
+                <div class="webgl-cont-b-l liui-transition" id="webgl_cont_b_l">
+                    <div class="reset" id="webgl_reset">
+                        <span class="iconfont icon-fuwei"></span>
+                    </div>
+                    <div class="floor_box">
+                        <ul id="scroll_bar" style="display:none;">
+                        </ul>
+                    </div>
+                </div>
+                <!-- 右下角 -->
+                <div class="webgl-cont-b-r" id="webgl_cont_b_r">
+
+                </div>
+            </div>
+
+            <!-- 右侧 -->
+            <div class="webgl-cont-r txt-c">
+                <div class="compass"></div>
+                <div class="txt"><span class="i18n" data-i18n="selected_position">展馆选择</span>&nbsp;&nbsp;<i class="iconfont icon-xiala color3 font8"></i></div>
+                <div class="name i18n" data-i18n="shanghai_exhibition" id="curr_bulid_name">上海会展</div>
+            </div>
+            <div class="bulid-wrapper liui-transition" id="bulid_wrapper">
+                <div class="layer"></div>
+                <div class="bulid-cont">
+                    <ul id="Li_bulid_list"></ul>
+                </div>
+            </div>
+
+            <!-- 导航部分 -->
+            <!-- 路线 -->
+            <div class="navigate-btn liui-transition" id="navigate_btn"><i class="iconfont icon-luxian"></i><span class="i18n" data-i18n="navigation">路线</span></div>
+            <!-- 起始点输入框 -->
+            <div class="direction-wrp liui-transition bg-fff" id="direction_wrp">
+                <ul>
+                    <li class="liui-flex liui-flex-row-middle">
+                        <div class="dot"></div>
+                        <div class="inp liui-flex-row-bd">
+                            <input roomid="" type="text" name="start_position" id="Li_start_position_input" placeholder="选择起点或扫码定位" readonly="readonly" data-type="start">
+                        </div>
+                        <div class="two_code_btn"  data-type="home">
+                            <i class="iconfont icon-saomiaoerweima"></i>
+                            <span class="i18n" data-i18n="scavenging_location">扫码定位</span>
+                        </div>
+                    </li>
+                    <li class="liui-flex liui-flex-row-middle">
+                        <div class="dot"></div>
+                        <div class="inp liui-flex-row-bd">
+                            <input roomid="" type="text" name="end_position" id="Li_end_position_input" placeholder="点此输入终点"  readonly="readonly" data-type="end">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- 设置起始点 -->
+            <div class="choose-set-point liui-transition bg-fff" id="choose_set_point">
+                <ul>
+                    <li>
+                        <i class="iconfont icon-huizhanditu-xuanzhong"></i><span id="choose_set_point_name"></span>
+                    </li>
+                    <li class="mt10">
+                        <button class="liui-btn btn1" id="choose_set_point_start" data-type="start"><i class="iconfont icon-weizhidian"></i>设为起点</button>
+                        <button class="liui-btn btn2" id="choose_set_point_end" data-type="end"><i class="iconfont icon-luxian"></i>到这里去</button>
+                    </li>
+                </ul>
+            </div>
+            <!-- 设置起始点 -->
+            <div class="go-here liui-transition liui-flex liui-flex-row-middle bg-fff" id="go_here">
+                <div class=" info">
+                    <h3 class="name" id="go_here_name"></h3>
+                    <p class="hide"><i class="iconfont icon-weizhidian"></i><span id="go_here_addr"></span></p>
+                </div>
+                <div class="btn" id="go_here_btn" data-info="">
+                    <i class="iconfont icon-luxian"></i><span class="i18n" data-i18n="go_here">到这里</span>
+                </div>
+                <div class="btn2" id="go_here_close">
+                    <i class="iconfont icon-ego-guanbi"></i>
+                </div>
+            </div>
+            <!-- 线路回放显示开始 -->
+            <div class="history-rollback-wrapper">
+                <ul>
+                </ul>
+                <div class="exit-wrapper">
+                    <div class="btn-exit-rollback i18n" data-i18n="exit_and_playback">退出回放</div>
+                </div>
+            </div>
+
+
+
+
+        </section>
+
+        <section class="infrastructure-wrp liui-pos-f0 liui-transition" id="infrastructure_wrp">
+            <div class="infrastructure-h">
+                <h3 class="i18n" data-i18n="infrastructure">便利设施</h3>
+            </div>
+            <div class="infrastructure-m">
+                <ul class="liui-row" id="infrastructure_list">
+                </ul>
+            </div>
+            <div class="infrastructure-b txt-c">
+                <span class="iconfont icon-2guanbi color_f" id="infrastructure_wrp_close"></span>
+            </div>
+        </section>
+
+
+
+        <!-- 交通导览 -->
+        <!-- <section class="page-item liui-transition Li_page_item" id="trafficGuide">
+            <h1>22222222222</h1>
+        </section> -->
+        <!-- 餐饮查询 -->
+        <section class="page-item liui-transition Li_page_item bg-fff" id="catering">
+            <div class="catering-page-cont-header liui-pos-a liui-flex-row liui-flex-row-middle">
+                <div class="liui-flex-row-hd"><a href="javascript:;" class="liui-btn btn2 liui-transition liui-block iconfont icon-fanhui" id="close_search"></a></div>
+                <div class="liui-flex-row-bd liui-pos-r input-c">
+                    <span class="iconfont icon-sousuo"></span>
+                    <input class="inp liui-flex-row-bd" type="text" placeholder="搜索商铺" name="s_word" id="search_word">
+                    <span class="ico-close" id="search_word_clear">×</span>
+                </div>
+                <div class="liui-flex-row-ft">
+                    <a href="javascript:;" class="two_code_btn liui-btn liui-block iconfont icon-saomiaoerweima" data-type="other"></a>
+                </div>
+            </div>
+            <div class="catering-page-cont">
+                <div class="catering-page-cont-main">
+                    <div class="catering-page-cont-main-nav">
+                        <ul class="categorys liui-transition" id="categorys_list">
+                        </ul>
+                    </div>
+                    <div class="catering-page-cont-main-list">
+                        <ul class="shops-list" id="shops_list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="catering-search-cont bg-fff liui-transition" id="catering_search">
+                <ul id="shops_search"></ul>
+            </div>
+        </section>
+        <!-- 会展介绍 -->
+        <section class="page-item liui-transition Li_page_item bg-fff" id="exhibitionIntroduction"></section>
+        <!-- 酒店介绍 -->
+        <section class="page-item liui-transition Li_page_item bg-fff" id="hotelIntroduction"></section>
+    </div>
+
+    <!-- 起始终点搜索弹层 -->
+    <section class="pop-input-page liui-transition liui-pos-f0 bg-fff" id="pop_input_page">
+        <div class="pop-input-page-h liui-pos-a">
+            <div class="liui-flex-row-hd"><a href="javascript:;" class="liui-btn btn2 liui-transition liui-block iconfont icon-fanhui" id="pop_input_close"></a></div>
+            <div class="liui-flex-row-bd">请选择地点</div>
+        </div>
+        <div class="pop-input-page-m liui-pos-a">
+            <div class="bulids">
+                <ul id="pop_input_bulids">
+                </ul>
+            </div>
+            <div class="layers">
+                <ul id="pop_input_layers">
+                </ul>
+            </div>
+            <div class="shops">
+                <ul id="pop_input_shops">
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="liui-footer-nav bg-fff">
+        <ul class="liui-flex">
+            <li class="liui-flex-item Li_page_entance active" data-pageurl="exhibitionMap" data-opts="exhibitionMap" data-pagecache="exhibition_map_page">
+                <a href="javascript:;">
+                    <div class="liuiicon">
+                        <span class="iconfont icon-huizhanditu-weixuan"></span>
+                        <span class="iconfont icon-huizhanditu-xuanzhong"></span>
+                    </div>
+                    <p class="i18n" data-i18n="exhibition_map">会展地图</p>
+                </a>
+            </li>
+            <li class="liui-flex-item Li_page_entance" data-pageurl="trafficGuide" data-opts="trafficGuide" data-pagecache="traffic_guide_page">
+                <a href="javascript:;">
+                    <div class="liuiicon">
+                        <span class="iconfont icon-jiaotongdaolan-weixuan"></span>
+                        <span class="iconfont icon-jiaotongdaolan-xuanzhong1"></span>
+                    </div>
+                    <p class="i18n" data-i18n="traffic_guide">交通导览</p>
+                </a>
+            </li>
+            <li class="liui-flex-item Li_page_entance" data-pageurl="catering" data-opts="catering" data-pagecache="catering_page">
+                <a href="javascript:;">
+                    <div class="liuiicon">
+                        <span class="iconfont icon-canyinchaxun-weixuan"></span>
+                        <span class="iconfont icon-canyinchaxun-xuanzhong"></span>
+                    </div>
+                    <p class="i18n" data-i18n="food_search">餐饮查询</p>
+                </a>
+            </li>
+            <li class="liui-flex-item Li_page_entance" data-pageurl="exhibitionIntroduction" data-opts="exhibitionIntroduction" data-pagecache="exhibition_introduction_page">
+                <a href="javascript:;">
+                    <div class="liuiicon">
+                        <span class="iconfont icon-huizhanjieshao-weixuan"></span>
+                        <span class="iconfont icon-huizhanjieshao-xuanzhong"></span>
+                    </div>
+                    <p class="i18n" data-i18n="exhibition_introduction">会展介绍</p>
+                </a>
+            </li>
+            <li class="liui-flex-item Li_page_entance" data-pageurl="hotelIntroduction" data-opts="hotelIntroduction" data-pagecache="hotel_introduction_page">
+                <a href="javascript:;">
+                    <div class="liuiicon">
+                        <span class="iconfont icon-jiudianjieshao-weixuan"></span>
+                        <span class="iconfont icon-jiudianjieshao-xuanzhong"></span>
+                    </div>
+                    <p class="i18n" data-i18n="hotel_introduction">酒店介绍</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<audio id="audio" src="data:audio/mp3;base64,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"></audio>
+<script src="js/libs/jquery.js"></script>
+<script src="js/libs/jweixin-1.1.0.js"></script>
+<script src="js/libs/wx.js"></script>
+<script src="js/Miaokit/Driver/Lib/three.min.js"></script>
+<script src="js/Miaokit/Driver/Lib/stats.min.js"></script>
+<script src="js/Miaokit/Driver/Lib/jszip.min.js"></script>
+<script src="js/Miaokit/Driver/Lib/ctm/lzma.js"></script>
+<script src="js/Miaokit/Driver/Lib/ctm/ctm.js"></script>
+<script src="js/Miaokit/miaokit.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
