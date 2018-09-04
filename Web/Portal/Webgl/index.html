@@ -1,0 +1,186 @@
+﻿<!DOCTYPE tree PUBLIC "-//W3C//DTD Xtree 1.0 Transitional//EN" "http://www.w3.org/TR/xtree1/DTD/xtree1-transitional.dtd">
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | websocketMonitor</title>
+	<style>
+	body {
+		padding: 0px;
+		margin: 0px;
+	}
+	
+	.template-wrap {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.emscripten {
+		width: 100%;
+		height: 100%;
+	}
+	
+	#pop {
+		position: fixed;
+		border: none;
+		z-index: 9999;
+		background-color: #fff;
+		
+	}
+	#canvas{
+		position: absolute;
+	}
+        #scroll-1::-webkit-scrollbar {
+        width:10px;
+        height:10px;
+    }
+	
+    ::-webkit-scrollbar-button    {
+		height:0px;
+        background-color:#F1F1F1;
+    }
+    ::-webkit-scrollbar-track     {
+        background:#F1F1F1;
+    }
+    ::-webkit-scrollbar-track-piece {
+        background:url(http://www.lyblog.net/wp/wp-content/themes/mine/img/stripes_tiny_08.png);
+		background:#F1F1F1;
+    }
+    ::-webkit-scrollbar-thumb{
+        background:#EFCAB8;
+        border-radius:4px;
+		
+    }
+    ::-webkit-scrollbar-corner {
+        background:#F1F1F1;
+    }
+    ::-webkit-scrollbar-resizer  {
+        background:#F1F1F1;
+    }
+	</style>
+    <link rel="stylesheet" href="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/style.css">
+    <link rel="shortcut icon" href="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/favicon.ico" />
+      <link rel="stylesheet" href="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/style.css">
+      <link rel="stylesheet" href="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/customStyle.css">
+      <script type="text/javascript" src="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/tweenjs-0.6.2.min.js"></script>
+      <script type="text/javascript" src="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/CSSPlugin.js"></script>
+    <script src="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/UnityProgress.js"></script>
+
+    </head>
+    <body class="template">
+      <div class="template-wrap clear">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="300px" width="500px"></canvas>
+      </div>
+
+        <div id="loadingBox">
+            <img id="logo" src="__ROOT__/themes/simplebootx/Portal/Webgl/TemplateData/logo.png" />
+
+            <div id="bgBar"></div>
+            <div id="progressBar"></div>
+            <p id="loadingInfo"></p>
+			
+        </div>
+		
+	  <iframe id="pop"></iframe>
+    <script type='text/javascript'>
+	    /* 重置画布大小 */
+	    	var mCanvas = document.getElementById('canvas');
+	    	var canvasWidth = document.body.clientWidth;
+	    	var canvasHeight = document.documentElement.clientHeight;
+	    	mCanvas.width = canvasWidth;
+	    	mCanvas.height = canvasHeight;
+	    	window.onresize = wResizeDeal;
+	 
+	    	function wResizeDeal() {
+	    		canvasWidth = document.body.clientWidth;
+	    		canvasHeight = document.documentElement.clientHeight;
+	    		mCanvas.width = canvasWidth;
+	    		mCanvas.height = canvasHeight;
+		
+	    	}
+	    	
+	    	/* 设置弹出窗口位置、宽高 参数均为数字 */
+	    	var popWin = document.getElementById("pop");
+	    	function setPopWin(left, top, width, height) {
+	    		popWin.style.top = top + 'px';
+	    		popWin.style.left = left + 'px';
+	    		popWin.style.width = width + 'px';
+	    		popWin.style.height = height + 'px';
+			
+	    	}
+	    	
+	    	function PopIframe(url, left, top, width, height)
+	    	{
+	    		console.log("js:" + url);
+	    		popWin.src = url;
+	    		popWin.style.display = "block";	
+	    		setPopWin(left, top, width, height);
+			
+	    	}
+	    	
+	    	function CloseIframe()
+	    	{
+	    		console.log("js CloseIframe:");
+	    		popWin.style.display = "none";
+			
+	    	} 
+			
+				    	
+	    	function CloseLoadingVideo()
+	    	{
+	    		console.log("js webgl_call_web_close_video:");
+	    		window.parent.webgl_call_web_close_video();
+	    	} 
+			
+
+	    	/* 给弹出窗口设置网页 参数为url字符串 */
+	    	function setPopUrl(url) {
+	    		 popWin.src = url;
+				
+	    	}
+
+			function web_call_browser_get_prj_id(str)
+			{
+				//http://10.0.0.53:8085/themes/simplebootx/Portal/webgl/sve_index.html?id=99
+				var url_id = getRequest().id;
+				alert("地址"+url_id);
+				SendUnityMessage("SetProjectID", url_id);
+			}
+			
+			/* 获取url中"?"符后的字串 */
+			function getRequest() {
+			  var url = window.location.search; //获取url中"?"符后的字串
+			  var theRequest = new Object();
+			  if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i ++) {
+				   
+				  theRequest[strs[i].split("=")[0]]=decodeURI(strs[i].split("=")[1]);
+				   
+				}
+			  }
+			  return theRequest;
+			}
+			
+	    	CloseIframe();
+	    	
+	    	var Module = {
+	    		TOTAL_MEMORY: 1610612736,
+	    		errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+	    		compatibilitycheck: null,
+	    		backgroundColor: "#222C36",
+	    		splashStyle: "Light",
+	    		dataUrl: "__ROOT__/themes/simplebootx/Portal/Webgl/Release/webgl.data",
+	    		codeUrl: "__ROOT__/themes/simplebootx/Portal/Webgl/Release/webgl.js",
+	    		asmUrl: "__ROOT__/themes/simplebootx/Portal/Webgl/Release/webgl.asm.js",
+	    		memUrl: "__ROOT__/themes/simplebootx/Portal/Webgl/Release/webgl.mem",
+	    	  };
+			 
+	  </script>
+        <script type='text/javascript'>   
+			document.getElementById("#pop::-webkit-scrollbar-resizer").style.height=50+"px";
+		</script>
+	  <script src="__ROOT__/themes/simplebootx/Portal/Webgl/Release/UnityLoader.js"></script>
+  </body>
+</html>

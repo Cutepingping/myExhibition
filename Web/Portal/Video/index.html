@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<script src="__TMPL__Public/js/jquery.js"></script>
+<div id="box" style="position: absolute;left:0;top:0; background: #000000;"> 
+	<video   controls="controls" loop="true"  autoplay="autoplay" src="{$video_info.video_file_url}"   id="sp"  >
+		您的浏览器不支持 video 标签。	
+	</video>
+</div>
+	<!-- loop="true" -->
+<script type="text/javascript">
+	jQuery(function($){	
+	$("#sp").css("height",window.innerHeight);
+	$("#sp").css("width",window.innerWidth);
+})
+//当窗口大小改变的时候会触发这个事件
+window.onresize=function(){  
+	$("#sp").css("height",window.innerHeight);
+	$("#sp").css("width",window.innerWidth);
+}
+</script>
+</html>

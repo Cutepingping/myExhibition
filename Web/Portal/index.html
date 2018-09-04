@@ -1,0 +1,67 @@
+﻿<!DOCTYPE tree PUBLIC "-//W3C//DTD Xtree 1.0 Transitional//EN" "http://www.w3.org/TR/xtree1/DTD/xtree1-transitional.dtd"><head>
+<meta http-equiv="Content-Type" content="text/tree; charset=utf-8" />
+<title>进口博览会VR系统</title>
+<html>
+<script src="__ROOT__/public/js/jquery.js"></script>
+<script src="__TMPL__Public/js/common_webgl_msg.js"></script>
+<link href="__TMPL__Public/css/style.css" rel="stylesheet">
+
+<body>
+
+<iframe id="dcim_iframe1"   src="{:U('Webgl/index')}"  scrolling="no" frameborder="0" ></iframe>
+
+
+ 
+<div id="dcim_iframe2" style="position: absolute;left:0;top:0; background:#000000;">
+	<video  id="sp"  controls="controls" autoplay="autoplay" src="{$video_info.video_file_url}"     >
+		您的浏览器不支持 video 标签。	
+	</video>	
+
+</div>
+
+
+<div class="close-btn" id="close-btn">进入 Enter</div>
+
+
+<script type="text/javascript"> 
+function changeFrameHeight(){
+	var ifm1= document.getElementById("dcim_iframe1"); 
+	ifm1.height=document.documentElement.clientHeight;
+	var ifm2= document.getElementById("dcim_iframe2"); 
+	ifm2.height=document.documentElement.clientHeight;
+	$("#sp").css("height",window.innerHeight);
+	$("#sp").css("width",window.innerWidth);
+}
+//当窗口大小改变的时候会触发这个事件
+window.onresize=function(){  
+	 changeFrameHeight();  
+} 
+jQuery(function($){	
+	$("#sp").css("height",window.innerHeight);
+	$("#sp").css("width",window.innerWidth);
+})
+function playPause() {	
+	var video = document.getElementById("sp"); 
+	video.loop = false;
+	video.addEventListener('ended',function(){
+		setTimeout(function(){
+			$('#dcim_iframe2').css('display','none');
+			$("#close-btn").css("display","none");  	    
+		    video.controls = true; 
+		    video.pause(); 
+		},3000)		
+	})
+};
+playPause();
+$("#close-btn").on("click", function(){
+	$(this).prev().css("display",'none');
+	$(this).css("display","none");
+	var video = document.getElementById("sp"); 
+    this.controls = true; 
+    video.pause(); 	
+})
+
+
+</script>
+</body>
+</html>
